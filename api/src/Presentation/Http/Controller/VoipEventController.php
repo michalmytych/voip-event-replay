@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Presentation\Http\Controller;
 
 use App\DTO\CreateVoipEventRequest;
 use App\Entity\VoipEvent;
