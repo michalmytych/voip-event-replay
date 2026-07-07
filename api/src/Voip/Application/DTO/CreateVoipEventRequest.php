@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\DTO;
+namespace App\Voip\Application\DTO;
 
-use App\Enum\VoipEventType;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Voip\Domain\Enum\VoipEventType;
 
 final readonly class CreateVoipEventRequest
 {

@@ -8,8 +8,6 @@
 #   bin/console debug:router
 
 controllers:
-    resource:
-        path: ../src/Presentation/Http/Controller/
-        namespace: App\Presentation\Http\Controller
+    resource: ../src
     type: attribute
     prefix: /api

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Voip\Domain\Entity;
 
-use App\Repository\VoipEventDoctrineRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Enum\VoipEventType;
-use App\Enum\VoipEventProcessingStatus;
+use App\Voip\Domain\Repository\VoipEventDoctrineRepository;
+use App\Voip\Domain\Enum\VoipEventType;
+use App\Voip\Domain\Enum\VoipEventProcessingStatus;
 
 #[ORM\Entity(repositoryClass: VoipEventDoctrineRepository::class)]
 #[ORM\Table(

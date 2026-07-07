@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Doctrine\Repository;
+namespace App\Voip\Infrastructure\Doctrine\Repository;
 
-use App\Entity\VoipEvent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Domain\Repository\VoipEventRepositoryInterface;
+use App\Voip\Domain\Entity\VoipEvent;
+use App\Voip\Domain\Repository\VoipEventRepositoryInterface;
 
 /**
  * @extends ServiceEntityRepository<VoipEvent>

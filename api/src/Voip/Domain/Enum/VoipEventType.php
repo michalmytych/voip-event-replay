@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Enum;
+namespace App\Voip\Domain\Enum;
 
 enum VoipEventType: string
 {

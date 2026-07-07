@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Repository;
+namespace App\Voip\Domain\Repository;
 
-use App\Entity\VoipEvent;
+use App\Voip\Domain\Entity\VoipEvent;
 
 interface VoipEventRepositoryInterface
 {

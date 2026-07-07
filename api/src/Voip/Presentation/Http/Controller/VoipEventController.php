@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Presentation\Http\Controller;
+namespace App\Voip\Presentation\Http\Controller;
 
-use App\DTO\CreateVoipEventRequest;
-use App\Entity\VoipEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Domain\Repository\VoipEventRepositoryInterface;
+use App\Voip\Application\DTO\CreateVoipEventRequest;
+use App\Voip\Domain\Entity\VoipEvent;
+use App\Voip\Domain\Repository\VoipEventRepositoryInterface;
 
 #[Route('/voip-events')]
 final class VoipEventController extends AbstractController
