@@ -12,11 +12,60 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Voip\Application\DTO\CreateVoipEventRequest;
 use App\Voip\Domain\Entity\VoipEvent;
 use App\Voip\Domain\Repository\VoipEventRepositoryInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 #[Route('/voip-events')]
 final class VoipEventController extends AbstractController
 {
     public function __construct(private readonly VoipEventRepositoryInterface $voipEventRepository) {}
+
+    #[Route('', methods: ['GET'])]
+    public function collection(Request $request)
+    {
+        $limit = min(100, max(1, $request->query->getInt('limit', 50)));
+
+        $cursor = $request->query->get('cursor');
+        $cursor = $cursor !== null ? (int) $cursor : null;
+
+        $sort = $request->query->get('sort', 'occurredAt');
+        $direction = strtolower($request->query->get('direction', 'desc'));
+
+        $items = $this->voipEventRepository->findCursorPaginated(
+            limit: $limit + 1,
+            cursor: $cursor,
+            sort: $sort,
+            direction: $direction,
+        );
+
+        $hasMore = count($items) > $limit;
+        $items = array_slice($items, 0, $limit);
+
+        $nextCursor = $hasMore && $items !== []
+            ? $items[array_key_last($items)]->getId()
+            : null;
+
+        return $this->json([
+            'data' => array_map(fn(VoipEvent $event) => [
+                'id' => $event->getId(),
+                'externalEventId' => $event->getExternalEventId(),
+                'callId' => $event->getCallId(),
+                'type' => $event->getType()->value,
+                'source' => $event->getSource(),
+                'occurredAt' => $event->getOccurredAt()->format(DATE_ATOM),
+                'receivedAt' => $event->getReceivedAt()->format(DATE_ATOM),
+                'payload' => $event->getPayload(),
+                'sequenceNumber' => $event->getSequenceNumber(),
+            ], $items),
+            'meta' => [
+                'limit' => $limit,
+                'cursor' => $cursor,
+                'nextCursor' => $nextCursor,
+                'hasMore' => $hasMore,
+                'sort' => $sort,
+                'direction' => $direction,
+            ],
+        ]);
+    }
 
     #[Route('', methods: ['POST'])]
     public function create(

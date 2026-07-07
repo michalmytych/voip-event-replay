@@ -23,4 +23,38 @@ class VoipEventDoctrineRepository extends ServiceEntityRepository implements Voi
     {
         $this->getEntityManager()->persist($event);
     }
+
+    public function findCursorPaginated(
+        int $limit,
+        ?int $cursor,
+        string $sort,
+        string $direction,
+    ): array {
+        $allowedSorts = [
+            'id' => 'e.id',
+            'occurredAt' => 'e.occurredAt',
+            'receivedAt' => 'e.receivedAt',
+            'callId' => 'e.callId',
+            'type' => 'e.type',
+            'source' => 'e.source',
+        ];
+
+        $sortField = $allowedSorts[$sort] ?? 'e.occurredAt';
+        $direction = strtolower($direction) === 'asc' ? 'ASC' : 'DESC';
+
+        $qb = $this->createQueryBuilder('e')
+            ->setMaxResults($limit);
+
+        if ($cursor !== null) {
+            $qb
+                ->andWhere($direction === 'DESC' ? 'e.id < :cursor' : 'e.id > :cursor')
+                ->setParameter('cursor', $cursor);
+        }
+
+        $qb
+            ->orderBy($sortField, $direction)
+            ->addOrderBy('e.id', $direction);
+
+        return $qb->getQuery()->getResult();
+    }
 }

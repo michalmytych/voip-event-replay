@@ -9,4 +9,11 @@ use App\Voip\Domain\Entity\VoipEvent;
 interface VoipEventRepositoryInterface
 {
     public function add(VoipEvent $event): void;
+
+    public function findCursorPaginated(
+        int $limit,
+        ?int $cursor,
+        string $sort,
+        string $direction,
+    ): array;
 }
