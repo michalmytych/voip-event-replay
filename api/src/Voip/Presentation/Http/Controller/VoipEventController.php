@@ -30,6 +30,7 @@ final class VoipEventController extends AbstractController
         $sort = $request->query->get('sort', 'occurredAt');
         $direction = strtolower($request->query->get('direction', 'desc'));
 
+        // @todo: to query
         $items = $this->voipEventRepository->findCursorPaginated(
             limit: $limit + 1,
             cursor: $cursor,
@@ -74,6 +75,7 @@ final class VoipEventController extends AbstractController
     ): JsonResponse {
         $event = new VoipEvent();
 
+        // @todo: to command
         $event->setExternalEventId($request->externalEventId);
         $event->setCallId($request->callId);
         $event->setType($request->type);
