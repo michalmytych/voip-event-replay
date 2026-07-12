@@ -7,6 +7,7 @@ namespace App\Voip\Domain\Model;
 use App\Voip\Application\ValueObject\CallEventStreamViolation;
 use App\Voip\Domain\Entity\VoipEvent;
 use App\Voip\Domain\Enum\CallEventStreamViolationCode;
+use App\Voip\Domain\Enum\VoipEventType;
 use Countable;
 use IteratorAggregate;
 
@@ -71,6 +72,23 @@ final class VoipEventsStream implements Countable, IteratorAggregate
     public function getIterator(): \Traversable
     {
         yield from $this->events;
+    }
+
+    public function getFirstEvent(): VoipEvent
+    {
+        return $this->events[0];
+    }
+
+    public function getLastEvent(): VoipEvent
+    {
+        return array_last($this->events);
+    }
+
+    public function getEventsOfType(VoipEventType $type): array
+    {
+        return array_values(
+            array_filter($this->events, fn ($event): bool => $event->getType() === $type)
+        );
     }
 
     /**
