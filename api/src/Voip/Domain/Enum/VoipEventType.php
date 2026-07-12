@@ -29,4 +29,10 @@ enum VoipEventType: string
 
     // Call transferred to another number
     case TRANSFERRED = 'TRANSFERRED';
+
+    public const CALL_TERMINATION_TYPES = [
+        self::CALL_MISSED,
+        self::CALL_ABANDONED,
+        self::CALL_ENDED
+    ];
 }
