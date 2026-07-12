@@ -8,6 +8,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Voip\Domain\Entity\VoipEvent;
 use App\Voip\Domain\Repository\VoipEventRepositoryInterface;
+use Override;
 
 /**
  * @extends ServiceEntityRepository<VoipEvent>
@@ -22,6 +23,12 @@ class VoipEventDoctrineRepository extends ServiceEntityRepository implements Voi
     public function add(VoipEvent $event): void
     {
         $this->getEntityManager()->persist($event);
+    }
+
+    #[Override]
+    public function findOneById(int $id): ?VoipEvent
+    {
+        return $this->find($id);
     }
 
     public function findCursorPaginated(

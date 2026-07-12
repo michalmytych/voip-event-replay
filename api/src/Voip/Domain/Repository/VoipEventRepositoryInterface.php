@@ -10,6 +10,8 @@ interface VoipEventRepositoryInterface
 {
     public function add(VoipEvent $event): void;
 
+    public function findOneById(int $id): ?VoipEvent;
+
     public function findCursorPaginated(
         int $limit,
         ?int $cursor,

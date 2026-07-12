@@ -71,6 +71,29 @@ final class VoipEventController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}', requirements: ['id' => '\d+'], methods: ['GET'])]
+    public function details(Request $request, int $id)
+    {
+        $event = $this->voipEventRepository->findOneById($id);
+
+        if (!$event) {
+            return $this->json([
+                'message' => 'Voip event record not found.'
+            ], 404);
+        }
+
+        return $this->json([
+            'id' => $event->getId(),
+            'callId' => $event->getCallId(),
+            'type' => $event->getType()->value,
+            'source' => $event->getSource(),
+            'occurredAt' => $event->getOccurredAt()->format(DATE_ATOM),
+            'receivedAt' => $event->getReceivedAt()->format(DATE_ATOM),
+            'payload' => $event->getPayload(),
+            'sequenceNumber' => $event->getSequenceNumber(),
+        ]);
+    }
+
     #[Route('', methods: ['POST'])]
     public function create(
         #[MapRequestPayload] CreateVoipEventRequest $request,
