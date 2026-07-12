@@ -58,6 +58,21 @@ final class VoipEventsStream implements Countable, IteratorAggregate
         ];
     }
 
+    public function getStreamCallId(): string
+    {
+        return $this->events[0]->getCallId();
+    }
+
+    public function count(): int
+    {
+        return count($this->events);
+    }
+
+    public function getIterator(): \Traversable
+    {
+        yield from $this->events;
+    }
+
     /**
      * @return CallEventStreamViolation[]
      */
@@ -163,21 +178,6 @@ final class VoipEventsStream implements Countable, IteratorAggregate
         }
 
         return $violations;
-    }
-
-    public function getStreamCallId(): string
-    {
-        return $this->events[0]->getCallId();
-    }
-
-    public function count(): int
-    {
-        return count($this->events);
-    }
-
-    public function getIterator(): \Traversable
-    {
-        yield from $this->events;
     }
 
     private static function compare(VoipEvent $event, VoipEvent $anotherEvent): int
