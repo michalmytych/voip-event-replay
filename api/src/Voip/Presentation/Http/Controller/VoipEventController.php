@@ -22,11 +22,14 @@ final class VoipEventController extends AbstractController
     #[Route('', methods: ['GET'])]
     public function collection(Request $request)
     {
+        // @todo: validate limit value
         $limit = min(100, max(1, $request->query->getInt('limit', 50)));
 
+        // @todo: validate cursor value
         $cursor = $request->query->get('cursor');
         $cursor = $cursor !== null ? (int) $cursor : null;
 
+        // @todo: validate sort and direction values
         $sort = $request->query->get('sort', 'occurredAt');
         $direction = strtolower($request->query->get('direction', 'desc'));
 
